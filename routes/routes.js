@@ -11,13 +11,17 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-router.post("/upload", upload.single('file'), async (req, res) => {
-  const file = new File({
-  name: req.file.originalname,  // <-- this is usually the filename from multer
-  filename: req.file.filename,
-  path: req.file.path,
-  size: req.file.size,
-});
+router.post('/upload', upload.single('file'), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: 'No file uploaded' });
+    }
+
+    const file = new File({
+      path: req.file.path,           // local path to file on server
+      name: req.file.originalname,   // original file name
+      // downloadCount will default to 0 automatically
+    });
 
     await file.save();
 
