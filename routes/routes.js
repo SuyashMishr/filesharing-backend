@@ -23,7 +23,7 @@ router.post("/upload", upload.single('file'), async (req, res) => {
 
     res.status(200).json({
       message: "File uploaded successfully",
-      path: `https://filesharing-backend-khaki.vercel.app/uploads/${req.file.filename}`
+      path: `https://filesharing-backend-t3ym.onrender.com/uploads/${req.file.filename}`
     });
   } catch (error) {
     console.error(error);
