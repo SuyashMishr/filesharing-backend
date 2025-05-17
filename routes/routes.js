@@ -21,11 +21,15 @@ router.post("/upload", upload.single('file'), async (req, res) => {
 
     await file.save();
 
-    res.redirect("https://file-sharing-frontend-six.vercel.app/success");
+    res.status(200).json({
+      message: "File uploaded successfully",
+      path: `https://filesharing-backend-khaki.vercel.app/uploads/${req.file.filename}`
+    });
   } catch (error) {
     console.error(error);
     res.status(500).send("Upload failed");
   }
 });
+
 
 export default router;
