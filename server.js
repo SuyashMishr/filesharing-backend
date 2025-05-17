@@ -11,17 +11,7 @@ const __dirname = path.dirname(__filename);
 
 dotenv.config();
 connectDB();
-router.post("/upload", async (req, res) => {
-  try {
-    // your logic to handle file upload
-    const file = await File.create({ ... });
 
-    // redirect to frontend page after successful upload
-    res.redirect("https://file-sharing-frontend-six.vercel.app/success");
-  } catch (error) {
-    res.status(500).send("Upload failed");
-  }
-});
 
 
 const app = express();
