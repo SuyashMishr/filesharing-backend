@@ -12,12 +12,12 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 router.post("/upload", upload.single('file'), async (req, res) => {
-  try {
-    const file = new File({
-      filename: req.file.filename,
-      path: req.file.path,
-      size: req.file.size,
-    });
+  const file = new File({
+  name: req.file.originalname,  // <-- this is usually the filename from multer
+  filename: req.file.filename,
+  path: req.file.path,
+  size: req.file.size,
+});
 
     await file.save();
 
