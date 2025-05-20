@@ -18,6 +18,7 @@ connectDB();
 const app = express();
 app.use(cors({
   origin: "https://file-sharing-frontend-six.vercel.app", // or use an env variable here
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true // if you’re using cookies/auth
 }));
 app.use(express.json());
