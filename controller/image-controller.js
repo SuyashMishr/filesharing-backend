@@ -17,7 +17,7 @@ export const uploadImage = async (req, res) => {
   try {
     const file = await File.create(fileObj);
     res.status(200).json({ 
-      path: `https://filesharing-backend-t3ym.onrender.comfile/${file._id}`,
+      path: `https://filesharing-backend-t3ym.onrender.com/file/${file._id}`,
       maxDownloads: file.maxDownloads
     });
   } catch (error) {
