@@ -14,6 +14,10 @@ const FileSchema = new mongoose.Schema({
         required: true,
         default: 0
     },
+     maxDownloads: {
+        type: Number,
+        default: null
+    }
 })
 
 const File = mongoose.model('file', FileSchema);
