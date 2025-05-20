@@ -33,6 +33,7 @@ router.post('/upload', upload.single('file'), async (req, res) => {
     console.error(error);
     res.status(500).send("Upload failed");
   }
+  router.get('/file/:fileId/status', checkFileStatus);
 });
 
 
