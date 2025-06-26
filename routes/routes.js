@@ -1,6 +1,7 @@
 import express from 'express';
 import File from '../models/file.js';
 import multer from 'multer';
+import { uploadFile, downloadFile, checkFileStatus } from '../controller/image-controller.js';
 
 const router = express.Router();
 
