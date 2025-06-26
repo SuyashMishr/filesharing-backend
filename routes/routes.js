@@ -1,28 +1,40 @@
 import express from 'express';
+import File from '../models/file.js';
 import multer from 'multer';
-import {
-  uploadImage,
-  downloadImage,
-  checkFileStatus
-} from '../controllers/image-controller.js';
 
 const router = express.Router();
 
-// Configure multer storage
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, 'uploads/'),
-  filename: (req, file, cb) => cb(null, `${Date.now()}-${file.originalname}`)
+  filename: (req, file, cb) => cb(null, ${Date.now()}-${file.originalname})
 });
 
 const upload = multer({ storage });
 
-// ✅ Route to upload file
-router.post('/upload', upload.single('file'), uploadImage);
+router.post('/upload', upload.single('file'), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: 'No file uploaded' });
+    }
 
-// ✅ Route to download file
-router.get('/file/:fileId', downloadImage);
+    const file = new File({
+      path: req.file.path,           // local path to file on server
+      name: req.file.originalname,   // original file name
+      // downloadCount will default to 0 automatically
+    });
 
-// ✅ Route to check file status (downloads left, expired, etc.)
-router.get('/file/:fileId/status', checkFileStatus);
+    await file.save();
+
+    res.status(200).json({
+      message: "File uploaded successfully",
+      path: https://filesharing-backend-t3ym.onrender.com/uploads/${req.file.filename}
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Upload failed");
+  }
+  router.get('/file/:fileId/status', checkFileStatus);
+});
+
 
 export default router;
