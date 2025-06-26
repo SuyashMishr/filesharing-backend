@@ -32,16 +32,36 @@ export const downloadImage = async (req, res) => {
     if (!file) {
       return res.status(404).json({ error: 'File not found' });
     }
-    
-    // Check if file has reached max downloads
+
+    // Check if the file has reached max downloads
     if (file.maxDownloads && file.downloadCount >= file.maxDownloads) {
       return res.status(410).json({ error: 'Link has expired after reaching maximum downloads' });
     }
-    
-    file.downloadCount++;
+
+    // Increment download count
+    file.downloadCount += 1;
+
+    // Save updated download count
     await file.save();
-    
-    res.download(file.path, file.name);
+
+    // Serve the file
+    res.download(file.path, file.name, async (err) => {
+      if (err) {
+        console.error("Error during download:", err);
+        return res.status(500).json({ error: 'Error during download' });
+      }
+
+      // After download, check if it was the final allowed one
+      if (file.maxDownloads && file.downloadCount >= file.maxDownloads) {
+        // Optionally delete the file from disk
+        fs.unlink(file.path, (err) => {
+          if (err) console.error('Failed to delete file:', err);
+        });
+
+        // Optionally delete the database entry
+        // await File.findByIdAndDelete(file._id);
+      }
+    });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
