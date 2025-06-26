@@ -9,7 +9,7 @@ export const uploadImage = async (req, res) => {
   const maxDownloads = req.body.maxDownloads ? parseInt(req.body.maxDownloads) : null;
   
   const fileObj = {
-    path: req.file.path,
+    path: `/uploads/${req.file.filename}`,
     name: req.file.originalname,
     maxDownloads: maxDownloads
   };
